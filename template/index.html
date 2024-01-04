@@ -42,13 +42,15 @@
                     // console.log(lanches)
                     lanches.forEach(lanche_name => {
                         const { image, ingredients } = data[lanche_name]
+                        const id = `${lanche_name.replace(' ', '_')}-price`
+
                     // adicionando as informações no card e depois dentro do caroussel
                         $('#carousel').append(`
                             <article onClick="fire_toast('${lanche_name} adicionado no carrinho')">
                                 <h3>${lanche_name}</h3>
                                 <img src="${host}${image}">
                                 <p>Ingredients: "${ingredients}"</p>
-                                <p id="${lanche_name.replace(' ', '_')}-price"></p>
+                                <p id="${id}"></p>
                             </article> 
                         `);
                     // Fazendo a requisição à API usando AJAX, method POST
@@ -57,7 +59,7 @@
                             headers:{"Authorization": "123"},
                             data: {name: lanche_name},
                             method: 'POST',
-                            success: response => $(`#${lanche_name.replace(' ', '_')}-price`).text(`Apartir de R$ ${response.originalPrice}0`),
+                            success: response => $(`#${id}`).text(`Apartir de R$ ${response.originalPrice}0`),
                             error: error => console.error(error)
                         })
 
