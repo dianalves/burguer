@@ -1,0 +1,171 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="/public/css/diy.css">
+    <script>
+
+        $(document).ready(function(){
+            $.ajax({
+                url:`${host}/api/v1.0/ingredients`,
+                method: 'GET',
+                headers:{"Authorization": "123"},
+                success:function(data, status) {
+                    Object.entries(data).forEach(([key, value]) => {
+                        const ingredient_name = key
+                        const price = value
+
+                        $('#table_itens').append(`
+                                <tr>
+                                    <td>${ingredient_name}</td>
+                                    <td>R$ ${price}</td>
+                                    <td>
+                                        <div>
+                                            <button id="botao_remove" onClick="discrimentvalue('qtd_${ingredient_name}')">
+                                                <i class="material-symbols-outlined">remove</i>
+                                            </button>
+                                            <p id="qtd_${ingredient_name}">0</p>
+                                            <button id="botao_add" onClick="incrementvalue('qtd_${ingredient_name}')">
+                                                <i  class="material-symbols-outlined">add</i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                        `)
+                    })
+                    const total = price.map.reduce((a,b) => a + b)
+                        $('#table_itens').append(`<p id="total">Total a pagar: R$ ${total}</p>`)
+                }
+            })
+        })
+
+        const incrementvalue = (element) => {
+            const resultadoElemento = document.getElementById(element)
+
+            let value = parseInt(resultadoElemento.innerText, 0)
+
+            value += 1
+            if (value > 6) {
+                value = 6
+            }
+
+            resultadoElemento.textContent = value
+        }
+
+        const discrimentvalue = (element) => {
+            const resultadoElemento = document.getElementById(element)
+
+            let value = parseInt(resultadoElemento.innerText, 0)
+
+            value -= 1
+            if (value < 0) {
+                value = 0
+            }
+
+            resultadoElemento.textContent = value
+        }
+    </script>
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h2>Monte o seu lanche do seu jeitinho especial</h2>
+        <section id="diy">
+            <article>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ingredients</th>
+                            <th>Valor</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_itens">
+
+                    </tbody>
+                </table>
+            </article>
+            <!-- <table>
+                <tr>
+                  <th>Ingredients</th>
+                  <th>Valor</th>
+                  <th>Quantidade</th>
+                </tr>
+                <tr>
+                  <td>Alface</td>
+                  <td>R$1.50</td>
+                  <td>
+                    <div>
+                        <button id="botao_remove" onClick="discrimentvalue('qtd_alface')">
+                            <i class="material-symbols-outlined">remove</i>
+                        </button>
+                        <p id="qtd_alface">0</p>
+                        <button id="botao_add" onClick="incrementvalue('qtd_alface')">
+                            <i  class="material-symbols-outlined">add</i>
+                        </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Hamburguer de Carne</td>
+                  <td>R$3.00</td>
+                  <td>
+                    <div>
+                        <button>
+                            <i class="material-symbols-outlined">remove</i>
+                        </button>
+                        <p id="qtd_carne">0</p>
+                        <button id="botao_add" onClick="incrementvalue('qtd_carne')">
+                            <i  class="material-symbols-outlined">add</i>
+                        </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                    <td>Queijo</td>
+                    <td>R$1.60</td>
+                    <td>
+                        <div>
+                            <button>
+                                <i class="material-symbols-outlined">remove</i>
+                            </button>
+                            <p>0</p>
+                            <button>
+                                <i class="material-symbols-outlined">add</i>
+                            </button>
+                        </div>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>Bacon</td>
+                    <td>R$2.00</td>
+                    <td>
+                        <div>
+                            <button>
+                                <i class="material-symbols-outlined">remove</i>
+                            </button>
+                            <p>0</p>
+                            <button>
+                                <i class="material-symbols-outlined">add</i>
+                            </button>
+                        </div>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>Ovo</td>
+                    <td>R$2.50</td>
+                    <td>
+                        <div>
+                            <button>
+                                <i class="material-symbols-outlined">remove</i>
+                            </button>
+                            <p>0</p>
+                            <button>
+                                <i class="material-symbols-outlined">add</i>
+                            </button>
+                        </div>
+                      </td>
+                  </tr>
+              </table> -->
+        </section>
+    </main>
+{% endblock %}

@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+* {
+    margin: 0px;
+    padding: 0px;
+
+}
+
+html,
+body {
+    background-color: #ddd189;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+header {
+    background-image: linear-gradient(to bottom, rgb(220, 4, 4), #ddd189);
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+
+header>h1 {
+    padding-top: 20px;
+    font-variant: small-caps;
+    font-size: 10vw;
+    text-shadow: 1px 1px 0px black;
+}
+
+.navbar {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    position: fixed;
+    background-color: rgb(220, 4, 4);
+}
+
+.navbar a {
+    display: inline-flex;
+    text-decoration: none;
+}
+
+.menu_name {
+    display: none !important;
+}
+
+.open .menu_name {
+    display: block !important;
+}
+
+.navbar i, .navbar span {
+    display: flex;
+    text-align: center;
+    padding: 10px;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.navbar span {
+    font-size: 15px;
+    padding-top: 18px;
+}
+
+.navbar a:hover, .navbar i:hover {
+    background-color: #000000d6;
+}
+
+main>h2 {
+    text-align: center;
+    padding-top: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+
+
+footer {
+    padding-top: 20px;
+}

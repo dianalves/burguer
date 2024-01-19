@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="public/img/icone.jpg" type="image/x-icon">
+    <title>Burguer</title>
+    <link rel="stylesheet" href="/public/css/layout.css">
+
+    <script>
+        const host = ''
+        document.addEventListener('DOMContentLoaded', function () {
+            const fixedMenuButton = document.getElementById('menu_collapse');
+            const menu = document.getElementById('menu-fixed');
+
+            fixedMenuButton.addEventListener('click', function () {
+                menu.classList.toggle('open');
+            });
+        });
+
+        // metodo caxinha: de confirmado adicionado no carrinho
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        // continuação do metodo adicionado no carrinho
+        const fire_toast = message => Toast.fire({
+            icon: "success",
+            title: message
+        });
+    </script>
+    {% block head %}
+
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar" id="menu-fixed">
+        <i class="material-symbols-outlined" id="menu_collapse">menu</i>
+
+        <a href="/">
+            <i class="material-symbols-outlined">menu_book</i>
+            <span class="menu_name">Cardapio</span>
+
+        </a>
+        <a href="diy">
+            <i class="material-symbols-outlined">restaurant_menu</i>
+            <span class="menu_name">Monte você mesmo</span>
+        </a>
+        <a href="carrinho">
+            <i class="material-symbols-outlined">shopping_cart</i>
+            <span class="menu_name">Carrinho</span>
+        </a>
+    </nav>
+    <header>
+        <h1>{{ title or 'Burguer'}}</h1>
+    </header>
+
+    {% block body %}
+    {% endblock %}
+
+    <footer>
+
+    </footer>
+</body>
+</html>
