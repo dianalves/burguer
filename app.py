@@ -1,9 +1,15 @@
+from typing import Optional
+
 from flask import Flask, render_template, request, jsonify, make_response
-# from models.mysql import execute as db
+# from models.mysql import execute as service
 from uuid import uuid4 as generate_session_id
+
+from infrastructure.repository.burger_repository import BurgerRepository
+from infrastructure.service.db import get_database
 from tests.utils.stubs import db_results as db
 
 app = Flask(__name__, template_folder="template", static_folder="public")
+burger_repository: Optional[BurgerRepository] = None
 
 session = {
     #session_id: {'carrinho': []}
@@ -35,16 +41,27 @@ def diy():
 
 @app.route("/api/v1.0/burgers")
 def burguers():
-    records = db("select * from burguer_page;")
+    # records = db("select * from burguer_page;")
+    records = burger_repository.list_all_burgers()
+
+    # for burger in records:
+    #     print(burger.image)
 
     output = {}
 
-    for linha in records:
-        name = linha["name"]
-        image = linha["image"]
-        ingredients = linha["ingredients"].split(",")
+    for burger in records:
+        name = burger.name
+        image = burger.image
+        ingredients = burger.ingredients.split(",")
 
         output[name] = {"ingredients": ingredients, "image": image}
+
+    # for linha in records:
+    #     name = linha["name"]
+    #     image = linha["image"]
+    #     ingredients = linha["ingredients"].split(",")
+    #
+    #     output[name] = {"ingredients": ingredients, "image": image}
 
     return output
 
@@ -121,4 +138,8 @@ def session_carrinho():
     return {}
 
 if __name__ == "__main__":
+    mysql = get_database()
+
+    burger_repository = BurgerRepository(mysql)
+
     app.run(host='0.0.0.0', debug=True)

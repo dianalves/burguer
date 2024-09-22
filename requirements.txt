@@ -1,2 +1,5 @@
 Flask
 pytest-stub
+pymysql
+peewee
+python-dotenv
