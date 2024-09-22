@@ -16,6 +16,5 @@ if __name__ == "__main__":
 
     burger_repository = BurgerRepository(mysql)
 
-    if burger_repository.list_all_burgers().count == 0:
-        for burger in seed_burgers():
-            BurgerPeweeModel.create(**burger)
+    for burger in seed_burgers():
+        BurgerPeweeModel.create(**burger)
