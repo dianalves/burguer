@@ -12,4 +12,4 @@ RUN poetry update package
 
 # RUN python seeds/seed.py
 
-CMD ["flask", "run", "app.py"]
+CMD ["poetry", "run", "python", "-m", "flask", "run", "app.py", "--host=0.0.0"]
