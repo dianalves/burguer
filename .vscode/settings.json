@@ -6,13 +6,13 @@
                 "enableSsl": "Disabled"
             },
             "previewLimit": 50,
-            "server": "192.168.0.201",
+            "server": "db",
             "port": 3306,
             "driver": "MySQL",
-            "name": "test",
-            "database": "diana",
-            "username": "diana",
-            "password": "Diana1234"
+            "name": "devcontainer",
+            "database": "burger",
+            "username": "dev",
+            "password": "dev"
         }
     ]
 }

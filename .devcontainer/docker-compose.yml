@@ -1,0 +1,57 @@
+version: '3.8'
+
+networks:
+  burger-nw:
+    name: burger-nw
+    driver: bridge
+
+services:
+  # Update this to the name of the service you want to work with in your docker-compose.yml file
+  app:
+    # Uncomment if you want to override the service's Dockerfile to one in the .devcontainer 
+    # folder. Note that the path of the Dockerfile and context is relative to the *primary* 
+    # docker-compose.yml file (the first in the devcontainer.json "dockerComposeFile"
+    # array). The sample below assumes your primary file is in the root of your project.
+    #
+    # build:
+    #   context: .
+    #   dockerfile: .devcontainer/Dockerfile
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    env_file: dev.env
+    ports:
+      - 5000:5000
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - burger-nw
+
+    volumes:
+      # Update this to wherever you want VS Code to mount the folder of your project
+      - ..:/workspaces/burger:cached
+      - ~/.zshrc:/root/.zshrc:cached
+      - ~/.ssh:/root/.ssh:cached
+
+    # Uncomment the next four lines if you will use a ptrace-based debugger like C++, Go, and Rust.
+    # cap_add:
+    #   - SYS_PTRACE
+    # security_opt:
+    #   - seccomp:unconfined
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+  db:
+    image: mysql:8.0-bookworm
+    ports:
+      - 3306:3306
+    env_file: dev.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - burger-nw
