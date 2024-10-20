@@ -1,0 +1,33 @@
+version: '3.8'
+
+networks:
+  burger-nw:
+    name: burger-nw
+    driver: bridge
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    env_file: .env
+    ports:
+      - 5000:5000
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - burger-nw
+
+  db:
+    image: mysql:8.0-bookworm
+    ports:
+      - 3306:3306
+    env_file: .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
