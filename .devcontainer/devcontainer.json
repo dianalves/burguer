@@ -22,7 +22,7 @@
 		"ghcr.io/devcontainers-extra/features/zsh-plugins:0": {},
 		"ghcr.io/schlich/devcontainer-features/powerlevel10k:1": {}
 	},
-	"forwardPorts": [5000]
+	"forwardPorts": [5000],
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -37,7 +37,7 @@
 	// "shutdownAction": "none",
 
 	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
+	"postCreateCommand": "source /workspaces/${localWorkspaceFolderBasename}/.devcontainer/startup.sh"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
