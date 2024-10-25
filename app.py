@@ -9,7 +9,7 @@ from infrastructure.service.db import get_database
 from tests.utils.stubs import db_results as db
 
 app = Flask(__name__, template_folder="template", static_folder="public")
-burger_repository: Optional[BurgerRepository] = None
+burger_repository: Optional[BurgerRepository] = BurgerRepository(get_database())
 
 session = {
     #session_id: {'carrinho': []}
