@@ -5,13 +5,14 @@ section#carousel {
     padding-right: 150px;
     display: flex;
     justify-content: space-around;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Times New Roman', Times, serif;
     flex-wrap: wrap;
 }
 
 img {
     width: 250px;
     height: 250px;
+    border-radius: 5px;
 }
 
 article {

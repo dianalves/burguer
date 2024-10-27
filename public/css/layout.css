@@ -14,7 +14,7 @@ body {
 }
 
 header {
-    background-image: linear-gradient(to bottom, rgb(220, 4, 4), #ddd189);
+    background-image: linear-gradient(to bottom, rgb(0, 68, 20), #ddd08900);
     color: white;
     text-align: center;
     margin: 0;
@@ -32,7 +32,7 @@ header>h1 {
     flex-flow: column;
     height: 100%;
     position: fixed;
-    background-color: rgb(220, 4, 4);
+    background-color: rgb(8, 61, 24);
 }
 
 .navbar a {
