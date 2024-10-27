@@ -3,10 +3,11 @@ from infrastructure.service.db import get_database
 
 def seed_burgers():
     burgers_data = [
-        {'name': 'X-Bacon', 'image': '/public/images/x-bacon.png', 'ingredients': 'Bacon,Hamburguer de Carne,Queijo'},
-        {'name': 'X-Burger', 'image': '/public/images/x-burger.png', 'ingredients': 'Hamburguer de Carne,Queijo'},
-        {'name': 'X-Egg', 'image': '/public/images/x-egg.png', 'ingredients': 'Ovo,Hamburguer de Carne,Queijo'},
-        {'name': 'X-Egg Bacon', 'image': '/public/images/x-egg-bacon.png', 'ingredients': 'Ovo,Bacon,Hamburguer de Carne,Queijo'},
+        {'name': 'Veg-Ovo', 'image': '/public/images/burger1.jpg', 'ingredients': 'Pão, QueijoVeg, Cebola Roxa, Rucula, Pesto Verde, Pesto de Ovo'},
+        {'name': 'Veg-Cogumelo', 'image': '/public/images/burger2.jpg', 'ingredients': 'Pão, QueijoVeg, Cogumelo, Alface, Hamburguer de Beterraba'},
+        {'name': 'Veg-Verde', 'image': '/public/images/burger3.jpg', 'ingredients': 'Pão Preto, Mix de salada, Mix de legumes'},
+        {'name': 'Veg-Aborger', 'image': '/public/images/burger4.jpg', 'ingredients': 'Pão, QueijoVeg, Cebola Roxa, Rucula, Hamburguer de Abobrinha'},
+        {'name': 'Veg-Hambacate', 'image': '/public/images/burger5.jpg', 'ingredients': 'Pão, QueijoVeg, Creme de Abacate, Cogumelo, Hamburguer de Berinjela'},
     ]
 
     return burgers_data
