@@ -1,4 +1,4 @@
-from infrastructure.repository.burger_repository import BurgerRepository, BurgerPeweeModel
+from infrastructure.repository.burger_repository import BurgerRepository, BurgerPeweeModel, IngredientPeweeModel
 from infrastructure.service.db import get_database
 
 def seed_burgers():
@@ -12,10 +12,36 @@ def seed_burgers():
 
     return burgers_data
 
+def seed_ingredients():
+    ingredients_data = [
+        {'name': 'Pão', 'price': 1.50},
+        {'name': 'QueijoVeg', 'price': 5.00},
+        {'name': 'Cebola Roxa', 'price': 0.50},
+        {'name': 'Rucula', 'price': 0.75},
+        {'name': 'Pesto Verde', 'price': 5.25},
+        {'name': 'Pesto de Ovo', 'price': 3.00},
+        {'name': 'Cogumelo', 'price': 4.50},
+        {'name': 'Alface', 'price': 0.50},
+        {'name': 'Hamburguer de Beterraba', 'price': 3.00},
+        {'name': 'Pão Preto', 'price': 1.75},
+        {'name': 'Mix de Salada', 'price': 3.00},
+        {'name': 'Mix de Legumes', 'price': 3.00},
+        {'name': 'Hamburguer de Abobrinha', 'price': 3.00},
+        {'name': 'Creme de Abacate', 'price': 3.50},
+        {'name': 'Hamburguer de Berinjela', 'price': 3.00},
+    ]
+
+    return ingredients_data
+
+
 if __name__ == "__main__":
     mysql = get_database()
-
     burger_repository = BurgerRepository(mysql)
 
+    # Seed ingredients
+    for ingredient in seed_ingredients():
+        IngredientPeweeModel.create(**ingredient)
+
+    # Seed burgers
     for burger in seed_burgers():
         BurgerPeweeModel.create(**burger)

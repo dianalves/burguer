@@ -8,13 +8,13 @@
 
 html,
 body {
-    background-color: #ddd189;
+    background-color: #ffe032;
     font-family: 'Times New Roman', Times, serif;
 
 }
 
 header {
-    background-image: linear-gradient(to bottom, rgb(0, 68, 20), #ddd08900);
+    background-image: linear-gradient(to bottom, rgb(0, 68, 20), #ffd900);
     color: white;
     text-align: center;
     margin: 0;
