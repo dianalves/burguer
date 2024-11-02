@@ -92,6 +92,9 @@ def calculate():
     name = dados_json.get('name', '')
     choosen_burger = available_burgers.get(name, {})
     current_ingredients = choosen_burger.get('ingredients', {})
+    current_ingredients = [ingredient.strip() for ingredient in current_ingredients]
+
+    print(current_ingredients)
 
     soma_ingredients = 0
     for ingredient in current_ingredients:
@@ -101,8 +104,8 @@ def calculate():
     print(f'{soma_ingredients=}')
     output = {
         'name': name,
-        "originalPrice": soma_ingredients,
-        "promoPrice": soma_ingredients,
+        "originalPrice": f"{soma_ingredients:.2f}",
+        "promoPrice": f"{soma_ingredients:.2f}",
         "promotions": []
     }
 

@@ -12,8 +12,7 @@
                 success:function(data, status) {
                     Object.entries(data).forEach(([key, value]) => {
                         const ingredient_name = key
-                        const price = value
-
+                        const price = parseFloat(value).toFixed(2);
                         $('#table_itens').append(`
                                 <tr>
                                     <td>${ingredient_name}</td>
@@ -32,8 +31,7 @@
                                 </tr>
                         `)
                     })
-                    const total = price.map.reduce((a,b) => a + b)
-                        $('#table_itens').append(`<p id="total">Total a pagar: R$ ${total}</p>`)
+                    updateTotal() // Atualiza o total na primeira carga
                 }
             })
         })
@@ -49,6 +47,7 @@
             }
 
             resultadoElemento.textContent = value
+            updateTotal() // Atualiza o total ao incrementar
         }
 
         const discrimentvalue = (element) => {
@@ -62,6 +61,19 @@
             }
 
             resultadoElemento.textContent = value
+            updateTotal() // Atualiza o total ao decrementar
+        }
+
+        const updateTotal = () => {
+        let total = 0;
+        $('tbody tr').each(function() {
+            const ingredientName = $(this).find('td:first').text();
+            const price = parseFloat($(this).find('td:nth-child(2)').text().replace('R$', '').replace(',', '.').trim());
+            const quantity = parseInt($(`#qtd_${ingredientName}`).text());
+            total += price * quantity;
+        });
+        $('#total').remove(); // Remove o total anterior, se existir
+        $('#table_itens').append(`<p id="total">Total a pagar: R$ ${total.toFixed(2).replace('.', ',')}</p>`);
         }
     </script>
 {% endblock %}
