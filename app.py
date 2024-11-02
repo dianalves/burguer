@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, jsonify, make_response
 # from models.mysql import execute as service
 from uuid import uuid4 as generate_session_id
 
-from infrastructure.repository.burger_repository import BurgerRepository
+from infrastructure.repository.burger_repository import BurgerRepository, IngredientPeweeModel
 from infrastructure.service.db import get_database
 from tests.utils.stubs import db_results as db
 
@@ -68,37 +68,44 @@ def burguers():
 
 @app.route("/api/v1.0/ingredients")
 def ingredients():
-    records = db("select name, price from ingredient;")
+    # Obtém todos os ingredientes usando o modelo
+    records = IngredientPeweeModel.select()
 
     resp = {}
 
-    for linha in records:
-        name = linha["name"]
-        price = linha["price"]
+    for ingredient in records:
+        name = ingredient.name
+        price = ingredient.price
 
         resp[name] = price
 
     return resp
 
-
 @app.route("/api/v1.0/calculate", methods=["POST"])
 def calculate():
     dados_json = request.get_json()
-    price_ingredients = ingredients()
-    available_burguers = burguers()
+
+    # Obter todos os ingredientes e seus preços
+    price_ingredients = {ingredient.name: ingredient.price for ingredient in IngredientPeweeModel.select()}
+    available_burgers = burguers()  # Chama a função para obter burgers
 
     name = dados_json.get('name', '')
-    choosen_buguer = available_burguers.get(name, {})
-    current_ingredients = choosen_buguer.get('ingredients', [])
+    choosen_burger = available_burgers.get(name, {})
+    current_ingredients = choosen_burger.get('ingredients', {})
+    current_ingredients = [ingredient.strip() for ingredient in current_ingredients]
+
+    print(current_ingredients)
 
     soma_ingredients = 0
     for ingredient in current_ingredients:
-        soma_ingredients +=  price_ingredients.get(ingredient, 0)
+        price = price_ingredients.get(ingredient, 0)
+        soma_ingredients += price  # Adiciona o preço do ingrediente à soma total
+
     print(f'{soma_ingredients=}')
     output = {
         'name': name,
-        "originalPrice": soma_ingredients,
-        "promoPrice": soma_ingredients,
+        "originalPrice": f"{soma_ingredients:.2f}",
+        "promoPrice": f"{soma_ingredients:.2f}",
         "promotions": []
     }
 

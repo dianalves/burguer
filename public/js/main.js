@@ -54,7 +54,7 @@ $(document).ready(function(){
                         all_burguers[lanche_name].price = response
                         all_burguers[lanche_name].name = lanche_name
 
-                        return $(`#${id}`).text(`Apartir de R$ ${response.originalPrice}0`)},
+                        return $(`#${id}`).text(`Apartir de R$ ${response.originalPrice}`)},
                     error: error => console.error(error)
                 })
 

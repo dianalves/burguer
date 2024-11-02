@@ -27,7 +27,7 @@
                         </article>`)
                 })
 
-                const price = carrinho.map(lanche => lanche['price']['promoPrice']).reduce((a,b) => a + b)
+                const price = carrinho.map(lanche => parseFloat(lanche['price']['promoPrice'])).reduce((a, b) => a + b, 0);
                 $('#carrinho').append(`<p id="total">Total a pagar: R$ ${price}</p>`)
             } else {
                 $('#carrinho').append('<h2 id="titulo_carrinho">Carrinho Vazio</h2>')
