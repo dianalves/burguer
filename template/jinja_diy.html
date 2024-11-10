@@ -1,102 +1,107 @@
 {% extends "layout.html" %}
 
 {% block head %}
-    <link rel="stylesheet" href="/public/css/diy.css">
-    <script>
+<link rel="stylesheet" href="/public/css/diy.css">
+<script>
 
-        $(document).ready(function(){
-            $.ajax({
-                url:`${host}/api/v1.0/ingredients`,
-                method: 'GET',
-                headers:{"Authorization": "123"},
-                success:function(data, status) {
-                    Object.entries(data).forEach(([key, value]) => {
-                        const ingredient_name = key
-                        const price = parseFloat(value).toFixed(2);
-                        $('#table_itens').append(`
+    $(document).ready(function () {
+        $.ajax({
+            url: `${host}/api/v1.0/ingredients`,
+            method: 'GET',
+            headers: { "Authorization": "123" },
+            success: function (data, status) {
+                Object.entries(data).forEach(([key, value]) => {
+                    const ingredient_name = key
+                    const ingredient_name_for_id = key.replace(/\s+/g, '_'); // Substituir espaços por _ para garantir que o ID seja válido
+                    const price = parseFloat(value).toFixed(2);
+                    $('#table_itens').append(`
                                 <tr>
-                                    <td>${ingredient_name}</td>
-                                    <td>R$ ${price}</td>
-                                    <td>
-                                        <div>
-                                            <button id="botao_remove" onClick="discrimentvalue('qtd_${ingredient_name}')">
-                                                <i class="material-symbols-outlined">remove</i>
-                                            </button>
-                                            <p id="qtd_${ingredient_name}">0</p>
-                                            <button id="botao_add" onClick="incrementvalue('qtd_${ingredient_name}')">
-                                                <i  class="material-symbols-outlined">add</i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                        <td>${ingredient_name}</td> <!-- Exibe o nome original -->
+                        <td>R$ ${price}</td>
+                        <td>
+                            <div>
+                                <button id="botao_remove" onClick="discrimentvalue('qtd_${ingredient_name_for_id}')">
+                                    <i class="material-symbols-outlined">remove</i>
+                                </button>
+                                <p id="qtd_${ingredient_name_for_id}">0</p>
+                                <button id="botao_add" onClick="incrementvalue('qtd_${ingredient_name_for_id}')">
+                                    <i class="material-symbols-outlined">add</i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                         `)
-                    })
-                    updateTotal() // Atualiza o total na primeira carga
-                }
-            })
+                })
+                updateTotal() // Atualiza o total na primeira carga
+            }
         })
+    })
 
-        const incrementvalue = (element) => {
-            const resultadoElemento = document.getElementById(element)
+    const incrementvalue = (element) => {
+        const resultadoElemento = document.getElementById(element)
 
-            let value = parseInt(resultadoElemento.innerText, 0)
+        let value = parseInt(resultadoElemento.innerText, 0)
 
-            value += 1
-            if (value > 6) {
-                value = 6
-            }
-
-            resultadoElemento.textContent = value
-            updateTotal() // Atualiza o total ao incrementar
+        value += 1
+        if (value > 6) {
+            value = 6
         }
 
-        const discrimentvalue = (element) => {
-            const resultadoElemento = document.getElementById(element)
+        resultadoElemento.textContent = value
+        updateTotal() // Atualiza o total ao incrementar
+    }
 
-            let value = parseInt(resultadoElemento.innerText, 0)
+    const discrimentvalue = (element) => {
+        const resultadoElemento = document.getElementById(element)
 
-            value -= 1
-            if (value < 0) {
-                value = 0
-            }
+        let value = parseInt(resultadoElemento.innerText, 0)
 
-            resultadoElemento.textContent = value
-            updateTotal() // Atualiza o total ao decrementar
+        value -= 1
+        if (value < 0) {
+            value = 0
         }
 
-        const updateTotal = () => {
+        resultadoElemento.textContent = value
+        updateTotal() // Atualiza o total ao decrementar
+    }
+
+    const updateTotal = () => {
         let total = 0;
-        $('tbody tr').each(function() {
-            const ingredientName = $(this).find('td:first').text();
+
+        $('tbody tr').each(function () {
+            const ingredientName = $(this).find('td:first').text(); // Nome original para exibição
+            const ingredientNameForId = ingredientName.replace(/\s+/g, '_'); // Usar a versão sem espaços para o ID
             const price = parseFloat($(this).find('td:nth-child(2)').text().replace('R$', '').replace(',', '.').trim());
-            const quantity = parseInt($(`#qtd_${ingredientName}`).text());
+            const quantity = parseInt($(`#qtd_${ingredientNameForId}`).text()); // Garantir que o ID seja válido
+
             total += price * quantity;
         });
+
         $('#total').remove(); // Remove o total anterior, se existir
         $('#table_itens').append(`<p id="total">Total a pagar: R$ ${total.toFixed(2).replace('.', ',')}</p>`);
-        }
-    </script>
+    };
+</script>
 {% endblock %}
 
 {% block body %}
-    <main>
-        <h2>Monte o seu lanche do seu jeitinho especial</h2>
-        <section id="diy">
-            <article>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Ingredients</th>
-                            <th>Valor</th>
-                            <th>Quantidade</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table_itens">
+<main>
+    <h2>Monte o seu lanche do seu jeitinho especial</h2>
+    <section id="diy">
+        <article>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ingredients</th>
+                        <th>Valor</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody id="table_itens">
 
-                    </tbody>
-                </table>
-            </article>
-            <!-- <table>
+                </tbody>
+            </table>
+        </article>
+        <!-- <table>
                 <tr>
                   <th>Ingredients</th>
                   <th>Valor</th>
@@ -178,6 +183,6 @@
                       </td>
                   </tr>
               </table> -->
-        </section>
-    </main>
+    </section>
+</main>
 {% endblock %}
