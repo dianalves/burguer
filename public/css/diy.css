@@ -51,3 +51,14 @@ button {
 p {
     color: black;
 }
+
+#total {
+    color: black;
+    font-weight: bolder;
+    padding: 10px 15px;
+    margin-top: 20px;
+    background-color: rgba(240, 255, 255, 0.801);
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.582);
+    cursor: pointer;
+}
